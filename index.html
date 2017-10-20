@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>video demo</title>
+  <script src="./vconsole.js" charset="utf-8"></script>
+  <style media="screen">
+    html,body{
+      width: 100%;
+      height: 100%;
+    }
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    video{
+      /*transform:translateX(500px)*/
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+    audio::-webkit-media-controls-panel, video::-webkit-media-controls-panel{
+      background: transparent;
+      color: #000;
+    }
+    video::-webkit-media-controls-play-button{
+      color: #000;
+    }
+    /*audio::-webkit-media-controls-fullscreen-button,video::-webkit-media-controls-fullscreen-button{
+      display: none;
+    }*/
+  </style>
+</head>
+<body>
+
+
+  <!-- <video id='video' height="" src="./index.mp4" autoplay controls x5-video-orientation="landscape" webkit-playsinline="true">
+    <p>你的浏览器不支持video</p>
+  </video> -->
+
+  <video id='video' src="./wx.mp4" autoplay controls preload poster webkit-playsinline x5-video-player-type="h5" x-webkit-airplay="allow">
+    <p>你的浏览器不支持video标签</p>
+  </video>
+  <div id='btn'>点击</div>
+  <div style='position:absolute;top: 0;right:0;width:100px;height:100px;background:red;'>我是一个div</div>
+  <script>
+
+    let video = document.getElementById('video')
+    let btn = document.getElementById('btn')
+    btn.addEventListener('click',function(){
+      video.style.display = 'block'
+      btn.style.display = 'none'
+      video.play()
+      let ua = window.navigator.userAgent.toLowerCase()
+      console.log(ua)
+      if (ua.match(/MicroMessenger/i) == "micromessenger" || ua.match(/miuibrowser/i) == "miuibrowser") {
+        //在微信中打开
+        console.log('微信')
+      }else{
+        //全屏显示
+        video.webkitRequestFullScreen();
+      }
+
+      // video.requestFullscreen();
+
+    })
+
+    // if(window.orientation == 0 || window.orientation == 180){
+    //   video.style.transform = 'rotate(90deg)'
+    //   video.style.transformOrigin = 'center'
+    // }
+
+    //1.全屏要用户来触发
+    //2.横竖屏的问题（使用video.js微信中竖屏的推流 不会全屏）
+    //3.自动播放要用户来出发（或者引导用户 点击或者是滑动）
+    //4.点击返回会退出全屏
+    //5.全屏播放 层级最高
+  </script>
+</body>
+</html>
