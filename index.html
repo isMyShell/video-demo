@@ -20,6 +20,7 @@
       width: 100%;
       height: 100%;
       display: none;
+      object-fit: fill;
     }
     audio::-webkit-media-controls-panel, video::-webkit-media-controls-panel{
       background: transparent;
@@ -28,23 +29,62 @@
     video::-webkit-media-controls-play-button{
       color: #000;
     }
-    /*audio::-webkit-media-controls-fullscreen-button,video::-webkit-media-controls-fullscreen-button{
+    audio::-webkit-media-controls-fullscreen-button,video::-webkit-media-controls-fullscreen-button{
       display: none;
-    }*/
+    }
+    .box{
+      width: 100%;
+      height: 100%;
+      background: #ddf;
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
+    .head{
+      width: 100%;
+      height: 100%;
+    }
+    .cont{
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+    .foot{
+      width: 100%;
+      height: 100%;
+      background: #ddd;
+    }
   </style>
 </head>
 <body>
 
+  <div class="box">
+    <div class="head">头部</div>
+    <div class="cont">
+      <!-- <video id='video' height="" src="./index.mp4" autoplay controls x5-video-orientation="landscape" webkit-playsinline="true">
+        <p>你的浏览器不支持video</p>
+      </video> -->
 
-  <!-- <video id='video' height="" src="./index.mp4" autoplay controls x5-video-orientation="landscape" webkit-playsinline="true">
-    <p>你的浏览器不支持video</p>
-  </video> -->
-
-  <video id='video' src="./wx.mp4" autoplay controls preload poster webkit-playsinline x5-video-player-type="h5" x-webkit-airplay="allow">
-    <p>你的浏览器不支持video标签</p>
-  </video>
-  <div id='btn'>点击</div>
-  <div style='position:absolute;top: 0;right:0;width:100px;height:100px;background:red;'>我是一个div</div>
+      <video id='video' src="http://photo.qn.meike365.cn/%E6%8B%8D%E6%91%84%E4%BA%BA%E5%91%98%E8%A7%86%E9%A2%91-%E7%AB%96%E7%89%88-%E5%8E%8B%E7%BC%A9.mp4"
+      controls
+      preload
+      poster
+      x5-playsinline
+      webkit-playsinline
+      playsinline
+      x-webkit-airplay="allow"
+      x5­-video­-player­-fullscreen＝'false'>
+        <p>你的浏览器不支持video标签</p>
+      </video>
+      <div id='btn'>点击</div>
+      <!-- <div style='position:absolute;top: 0;right:0;width:100px;height:100px;background:red;'>我是一个div</div> -->
+    </div>
+    <div class="foot">尾部</div>
+  </div>
   <script>
 
     let video = document.getElementById('video')
@@ -60,11 +100,15 @@
         console.log('微信')
       }else{
         //全屏显示
-        video.webkitRequestFullScreen();
+        // video.webkitRequestFullScreen();
       }
-
       // video.requestFullscreen();
+    })
 
+    video.addEventListener('pause',function(){
+      video.style.display = 'none'
+      btn.style.display = 'block'
+      video.pause()
     })
 
     // if(window.orientation == 0 || window.orientation == 180){
