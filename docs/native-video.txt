@@ -1,0 +1,174 @@
+video标签的一些属性
+  <video
+    id="my-video"
+    src="test.mp4"
+    controls = ""    /*禁掉默认控制条-- 必要*/
+    poster="poster.jpg"  /*视频封面*/
+    preload="auto"  /*预加载*/
+    webkit-playsinline="true"  /*iOS 10中设置可以让视频在小窗内播放*/
+    playsinline="true"
+    x-webkit-airplay="allow"  /*启用AirPlay支持*/
+    x5-playsinline
+    x5-video-player-type="h5"  /*对于x5内核声明启用同层H5播放器*/
+    x5-video-player-fullscreen="true"   /*全屏设置设置为 true 是防止横屏*/
+    x5-video-orientation="portraint"  /*播放器的方向，默认为竖屏*/
+    x5-video-orientation="portraint" /*播放器支付的方向，landscape横屏，portraint竖屏，默认值为竖屏*/
+    style="object-fit:fill" /*去除黑边*/
+    >
+   </video>
+
+
+   下面我们来看看这些属性的作用：
+   1@ src：要嵌到页面的视频的URL。可选；你也可以使用video块内的 <source> 元素来指定需要嵌到页面的视频
+
+   2@ autoplay：布尔属性；指定后，视频会马上自动开始播放，不会停下来等着数据载入结束
+
+   3@ controls：加上这个属性，Gecko 会提供用户控制，允许用户控制视频的播放，包括音量，跨帧，暂停/恢复播放
+
+   4@ poster：一个海报帧的URL，用于在用户播放或者跳帧之前展示。如果属性未指定，那么在第一帧可用之前5什么都不会展示；之后第一帧就像海报帧一样展示
+
+   5@ preload：该枚举属性旨在告诉浏览器作者认为达到最佳的用户体验的方式是什么。可能是下列值之一：
+      none：提示作者认为用户不需要查看该视频，服务器也想要最小化访问流量；换句话说就是提示浏览器该视频不需要缓存
+      metadata：提示尽管作者认为用户不需要查看该视频，不过抓取元数据（比如：长度）还是很合理的
+      auto：用户需要这个视频优先加载；换句话说就是提示：如果需要的话，可以下载整个视频，即使用户并不一定会用它
+      空字符串：也就代指 auto 值
+
+   6@ buffered：这个属性可以读取到哪段时间范围内的媒体被缓存了。该属性包含了一个 TimeRanges 对象
+
+   7@ played：一个 TimeRanges 对象，指明了视频已经播放的所有范围
+
+   8@ loop：布尔属性；指定后，会在视频结尾的地方，自动返回视频开始的地方
+
+   9@muted：布尔属性，指明了视频里的音频的默认设置。设置后，音频会初始化为静音。默认值是 false ,意味着视频播放的时候音频也会播放
+
+   10@ height：视频展示区域的高度，单位是 CSS 像素
+
+   11@ width：视频显示区域的宽度，单位是 CSS 像素
+
+   12@ crossorigin：该枚举属性指明抓取相关图片是否必须用到CORS（跨域资源共享）。 支持CORS的资源  可在 <canvas>元素中被重用，而不会被污染。允许的值如下：
+      anonymous：跨域请求会被执行，但是不发送凭证。
+      use-credentials：跨域请求A cross-origin request会被执行，且凭证会被发送。
+
+   13@  TimeRanges 对象表示事件段，比如，视频快进的时间段，有一个 length 属性，表示时间段的个数，有两个方法 start() 和 end() ，分别返回时间段开始的时间点和结束的时间点
+
+    14@ webkit-playsinline和playsinline：视频播放时局域播放，不脱离文档流 。但是这个属性比较特别， 需要嵌入网页的APP比如WeChat中UIwebview 的allowsInlineMediaPlayback = YES webview.allowsInlineMediaPlayback = YES，才能生效。换句话说，如果APP不设置，你页面中加了这标签也无效，这也就是为什么安卓手机WeChat 播放视频总是全屏，因为APP不支持playsinline，而ISO的WeChat却支持。
+    这里就要补充下，如果是想做全屏直播或者全屏H5体验的用户，IOS需要设置删除 webkit-playsinline 标签，因为你设置 false 是不支持的 ，安卓则不需要，因为默认全屏。但这时候全屏是有播放控件的，无论你有没有设置control。 做直播的可能用得着播放控件，但是全屏H5是不需要的，那么去除全屏播放时候的控件，需要以下设置：同层播放。
+
+    15@ x-webkit-airplay="allow"暂时无法确切的知道其作用，猜测，这个属性应该是使此视频支持ios的AirPlay功能。使用AirPlay可以直接从使用iOS的设备上的不同位置播放视频、音乐还有照片文件，也就是说通过AirPlay功能可以实现影音文件的无线播放，当然前提是播放的终端设备也要支持相应的功能。
+
+    16@ x5-video-player-type：启用同层H5播放器，就是在视频全屏的时候，div可以呈现在视频层上，也是WeChat安卓版特有的属性。同层播放别名也叫做沉浸式播放，播放的时候看似全屏，但是已经除去了control和微信的导航栏，只留下"X"和"<"两键。目前的同层播放器只在Android（包括微信）上生效，暂时不支持iOS。至于为什么同层播放只对安卓开放，是因为安卓不能像ISO一样局域播放，默认的全屏会使得一些界面操作被阻拦，如果是全屏H5还好，但是做直播的话，诸如弹幕那样的功能就无法实现了，所以这时候同层播放的概念就解决了这个问题。不过在测试的过程中发现，不同版本的IOS和安卓效果略有不同。
+
+    @17 x5-video-orientation：声明播放器支持的方向，可选值landscape 横屏, portraint竖屏。默认值portraint。无论是直播还是全屏H5一般都是竖屏播放，但是这个属性需要x5-video-player-type开启H5模式
+
+    18@ x5­-video­-player­-fullscreen：全屏设置。它又两个属性值，ture和false，true支持全屏播放，false不支持全屏播放。
+    其实，IOS 微信浏览器是Chrome的内核，相关的属性都支持，也是为什么X5同层播放不支持的原因。安卓微信浏览器是X5内核，一些属性标签比如playsinline就不支持，所以始终全屏。
+
+    19@ 还有个问题，在Android的微信里面，就算加上了上面的属性，还会出现上下有黑边，不能全屏的问题。
+    解决办法：给video加上object-fit: fill;的style属性。如果还是有黑边有可能是视频尺寸不合适。
+
+
+事件交互中主要使用的属性
+    currentTime：播放进行到的时间点，单位为秒
+    duration：视频总时长，单位为秒
+
+监控指标
+    播放：start：1（首次播放）2（重播）
+    播放：end：1
+    播放暂停：pause：1
+    播放中止：pause：1
+    快进/快退：Jump：1（快进）2（快退）
+    错误：fail： 1（取回过程）；2（当下载时发生错误）；3（当解码时发生错误）；4（不支持音频/视频）
+    播放等待： wait：1
+    播放时长：totaltime：秒（包含重播）
+
+播放中止
+    具体场景是移动端浏览器切换tab导致的隐藏和用户按home键退出浏览器
+
+    html5 提供了 Page Visibility API 来支持监听tab切换，与之对应新增了
+
+    document.hidden 属性，它显示页面是否为用户当前观看的页面，值为 ture 或 false
+    document.visibilityState 属性， visible 表示页面被展现， hidden 表示页面未被展现， prerender 表示页面在重新生成，用户不可见
+    visibilitychange 事件，监听页面在 visible 与 hidden 之间的切换
+
+
+播放时长
+    起初的思路是获取到开始播放到停止播放的事件差，记下时间点使用了 currentTime 属性，主要实现在两方面
+
+    playing 时记下时间点startT， pause 和 ended 和 seeked 时记下时间点endT，endT - startT 即播放时长
+    seeked 时记下时间点startT， seeking 时记下时间点endT，endT - startT 即播放时长
+    这个思路在 ios 下是看似没有问题的，但是 android 下确实不行，主要原因是 seeking 事件的监听没理解到位，seeking 事件触发点是用户目标跳跃到的位置，比如：视频播放在 0 秒点时，用户点击到了 60 秒点处，这是取到的 currentTime 就是 60 ，本来以为会是 0 ， ios 下看似没有问题是因为它的全屏播放模式下，进度条是要拖拽的，不能直接点击到某个点
+
+    于是，使用 timeupdate 来获取 seeking 触发前的时间点，就可以获取到相对准确的播放时长了
+
+
+error事件
+    监听 error 事件会返回 error.code 来标识错误类型：
+
+    1 = MEDIA_ERR_ABORTED - 取回过程被用户中止
+    2 = MEDIA_ERR_NETWORK - 当下载时发生错误
+    3 = MEDIA_ERR_DECODE - 当解码时发生错误
+    4 = MEDIA_ERR_SRC_NOT_SUPPORTED - 不支持音频/视频
+获取横竖屏的信息
+    1@  window.onorientationchange = function(){
+          switch(window.orientation){
+              case -90:
+              case 90:
+                  alert("横屏:" + window.orientation);
+              case 0:
+              case 180:
+                   alert("竖屏:" + window.orientation);
+              break;
+          }
+        }
+    2@  @media (orientation: portrait) { } 横屏
+        @media (orientation: landscape) { }竖屏
+    3@  旋转 用css3的属性
+        transform: rotate(90deg);
+遇到的一些状况
+    1.  没有 <source> 元素且 src 属性为空时播放会触发 error 事件，状态码为4
+    解决：忽略 src 属性为空时的报错
+
+    2. 播放结束会触发暂停
+    解决：声明状态变量，随着具体操作更新状态，播放状态下才会执行暂停操作，结束状态不执行
+
+    3. 播放结束后重播会触发 seeking 和 seeked ，一般浏览器触发一次， android 下uc浏览器触发多次
+    解决：同上
+
+    4. 一些浏览器监听不到 seeking 和 seeked
+    解决：在 timeupdate 里来分析猜测用户行为
+
+    5. 一些浏览器存在多次连续触发 seeking + seeked 的情况
+    解决：时间戳 + 节流 等待最后一次
+
+    6. seeking 和 seeked 与 timeupdate 需要保证不会同时执行
+    解决：监听到 seeking 触发，就不再执行 timeupdate 模拟
+    走过的坑：我曾设想在播放时直接判断出是否支持 seeking ，方式是播放时设置 currentTime 为 0.01 ，然后检测 seeking 属性，后来发现浏览器在这样设置后的 seeking 属性值不一致
+
+    7. 个别浏览器播放状态下不触发 seeking 和 seeked ，但是在重播的时候触发
+    解决：声明状态变量，随着具体操作更新状态，结束状态不监听 seeking 触发
+    å
+默认控件的隐藏
+    *::-webkit-media-controls-enclosure {
+      display:none !important;
+      -webkit-appearance: none;
+    }
+    *::-webkit-media-controls-panel {
+      display: none!important;
+      -webkit-appearance: none;
+    }
+    *::-webkit-media-controls-panel-container {
+      display: none!important;
+      -webkit-appearance: none;
+    }
+    *::--webkit-media-controls-play-button {
+      display: none!important;
+      -webkit-appearance: none;
+    }
+    *::-webkit-media-controls-start-playback-button {
+      display: none!important;
+      -webkit-appearance: none;
+    }
+    *::-webkit-media-controls {
+    display: none!important;
+    -webkit-appearance: none;
+    }

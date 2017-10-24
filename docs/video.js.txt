@@ -1,0 +1,256 @@
+实例
+    var player = videojs('example_video_1');
+    videojs是全局函数，它可以接收三个参数（id,options,onready）
+      第三个是回掉函数
+
+options
+
+      有两种方式可以改变videojs的行为：
+
+       1. 通过添加video标签的data-setup属性：<video data-setup='{"autoplay":"true",.....}'
+
+       2. var player = videojs('example_video_1',{autoplay:true,....}) , 直接传入options
+
+       由于第一种方式是写在html标签中，通过JSON.parse解析，性能低，还容易报错。个人更倾向于方法2.
+
+       这里有大量关于options的配置参数：http://docs.videojs.com/tutorial-options.html
+
+       常用几个项有：
+
+          autoplay :  true/false   播放器准备好之后，是否自动播放 【默认false】If true/present as an attribute, begins playback when the player is ready
+
+          controls : true/false 是否拥有控制条 【默认true】,如果设为false ,那么只能通过api进行控制了。也就是说界面上不会出现任何控制按钮
+
+          height: 视频容器的高度，字符串或数字 单位像素  比如： height:300 or height:'300px'
+
+          width: 视频容器的宽度, 字符串或数字 单位像素
+
+          loop : true/false 视频播放结束后，是否循环播放
+
+          muted : true/false 是否静音
+
+          poster: 播放前显示的视频画面，播放开始之后自动移除。通常传入一个URL
+
+          preload:预加载
+              'auto' 自动
+              ’metadata' 元数据信息 ，比如视频长度，尺寸等
+              'none'  不预加载任何数据，直到用户开始播放才开始下载
+
+          children: Array | Object  可选子组件  从基础的Component组件继承而来的子组件，数组中的顺序将影响组件的创建顺序哦。
+
+              // 下面的方式只使用bigPlayButton和controlBar两个子组件
+              videojs('my-player', {
+                children: [
+                  'bigPlayButton',
+                  'controlBar'
+                ]
+              });
+
+          sources:Array 资源文件
+              videojs('my-player', {
+                sources: [{
+                  src: '//path/to/video.mp4',
+                  type: 'video/mp4'
+                }, {
+                  src: '//path/to/video.webm',
+                  type: 'video/webm'
+                }]
+              });
+              等价于html中的形式：
+              <video ...>
+                <source src="//path/to/video.mp4" type="video/mp4">
+                <source src="//path/to/video.webm" type="video/webm">
+              </video>
+      techOrder: Array 使用哪种技术播放，可选值有'html5','flash'  默认为['html5'], 注意： 在v6.0.0 及以上的版本中，默认不包含flash的使用代码。如果要使用flash播放的，需要手动引入flash相关逻辑的代码。且需要指定swf文件的路径。
+              // 全局指定swf文件的位置
+              videojs.options.flash.swf = 'video-js.swf'
+              // Create a player.
+              var player = videojs('example_video_1',{
+                  teachOrder:['flash']
+              },function(){
+                  console.log(this)
+              });
+
+
+方法
+    autoplay
+    buffered
+    bufferedEnd
+    bufferedPercent
+    cancelFullScreen deprecated
+    controls
+    currentSrc
+    currentTime
+    currentType
+    dispose
+    duration
+    ended
+    error
+    exitFullscreen
+    init
+    isFullScreen deprecated
+    isFullscreen
+    language
+    load
+    loop
+    muted
+    pause
+    paused
+    play
+    playbackRate
+    poster
+    preload
+    remainingTime
+    requestFullScreen deprecated
+    requestFullscreen
+    seeking
+    src
+    volume
+    addChild inherited
+    addClass inherited
+    buildCSSClass inherited
+    children inherited
+    contentEl inherited
+    createEl inherited
+    dimensions inherited
+    el inherited
+    enableTouchActivity inherited
+    getChild inherited
+    getChildById inherited
+    hasClass inherited
+    height inherited
+    hide inherited
+    id inherited
+    initChildren inherited
+    name inherited
+    off inherited
+    on inherited
+    one inherited
+    options inherited
+    player inherited
+    ready inherited
+    removeChild inherited
+    removeClass inherited
+    show inherited
+    trigger inherited
+    triggerReady inherited
+    width inherited
+
+事件
+    durationchange
+    ended
+    firstplay
+    fullscreenchange
+    loadedalldata
+    loadeddata
+    loadedmetadata
+    loadstart
+    pause
+    play
+    progress
+    seeked
+    seeking
+    timeupdate
+    volumechange
+    waiting
+    resize inherited
+    组件
+      Player
+          PosterImage
+          TextTrackDisplay
+          LoadingSpinner
+          BigPlayButton
+          ControlBar
+              PlayToggle
+              FullscreenToggle
+              CurrentTimeDisplay
+              TimeDivider
+              DurationDisplay
+              RemainingTimeDisplay
+              ProgressControl
+                  SeekBar
+                    LoadProgressBar
+                    PlayProgressBar
+                    SeekHandle
+              VolumeControl
+                  VolumeBar
+                      VolumeLevel
+                      VolumeHandle
+              MuteToggle
+
+
+              //移除静音按钮
+              var player = videojs(‘video-id‘, {
+                controlBar: {
+                  muteToggle: false
+                }
+              });
+自定义组件（低版本不支持）
+    // Get the Component base class from Video.js
+    // 从Videojs中获取一个基础组件
+    var Component = videojs.getComponent('Component');
+
+    // The videojs.extend function is used to assist with inheritance. In
+    // an ES6 environment, `class TitleBar extends Component` would work
+    // identically.
+    // videojs.extend方法用来实现继承，等同于ES6环境中的class titleBar extends Component用法
+    var TitleBar = videojs.extend(Component, {
+
+    // The constructor of a component receives two arguments: the
+    // player it will be associated with and an object of options.
+    // 这个构造函数接收两个参数：
+    // player将被用来关联options中的参数
+    constructor: function(player, options) {
+
+    // It is important to invoke the superclass before anything else,
+    // to get all the features of components out of the box!
+    // 在做其它事之前先调用父类的构造函数是很重要的，
+    // 这样可以使父组件的所有特性在子组件中开箱即用。
+    Component.apply(this, arguments);
+
+    // If a `text` option was passed in, update the text content of
+    // the component.
+    // 如果在options中传了text属性，那么更新这个组件的文字显示
+    if (options.text) {
+      this.updateTextContent(options.text);
+    }
+    },
+
+    // The `createEl` function of a component creates its DOM element.
+    // 创建一个DOM元素
+    createEl: function() {
+    return videojs.dom.createEl('div', {
+
+      // Prefixing classes of elements within a player with "vjs-"
+      // is a convention used in Video.js.
+      //给元素加vjs-开头的样式名，是videojs内置样式约定俗成的做法
+      className: 'vjs-title-bar'
+    });
+    },
+
+    // This function could be called at any time to update the text
+    // contents of the component.
+    // 这个方法可以在任何需要更新这个组件内容的时候调用
+    updateTextContent: function(text) {
+
+    // If no text was provided, default to "Text Unknown"
+    // 如果options中没有提供text属性，默认显示Text Unknow
+    if (typeof text !== 'string') {
+      text = 'Text Unknown';
+    }
+
+    // Use Video.js utility DOM methods to manipulate the content
+    // of the component's element.
+    // 使用Video.js提供的DOM方法来操作组件元素
+    videojs.dom.emptyEl(this.el());
+    videojs.dom.appendContent(this.el(), text);
+    }
+    });
+
+    // Register the component with Video.js, so it can be used in players.
+    // 在videojs中注册这个组件，才可以使用哦.
+    videojs.registerComponent('TitleBar', TitleBar);
+
+
+    //使用组件
+    player.addChild('TitleBar', {text: '这里是标题'});
