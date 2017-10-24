@@ -2,6 +2,7 @@
 h5 video使用中遇到一点坑 以及总结
 ## index.html 原生的video
 ## demo.html 使用video.js
+## swiper.html 使用swiper-3.4.2实现全屏滑动
 # 参考资料
 
 ### [原生video](http://gaoxuefeng.com/2016/05/19/html5%E7%9A%84video%E4%BA%8B%E4%BB%B6%E5%AD%A6%E4%B9%A0%E6%89%8B%E6%9C%AD/)
